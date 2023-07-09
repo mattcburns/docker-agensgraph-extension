@@ -1,19 +1,26 @@
 # Personal fork for managin my own version of this container with latest release.
 
-# Docker AgensGraph-Extension
+# Docker Apache AGE for Postgres
 
-This is an image to build the [AgensGraph-Extension](https://github.com/bitnine-oss/AgensGraph-Extension) on the official PostgreSQL 11 Docker image. It can be run by executing 
+This is an image to build the [Apache AGE](https://github.com/apache/incubator-age/) on the official PostgreSQL 11 Docker image. It can be run by executing 
 
+## Running the container
 
-## Running the container 
+It can be run by executing:
 
-`docker run -it -e POSTGRES_PASSWORD=mypassword -pHostPort:5432 sorrell/agensgraph-extension`
+`docker run -it -e POSTGRES_PASSWORD=mypassword -p {HostPort}:5432 sorrell/apache-age`
 
-In the above command, replace `HostPort` with a port you'd like to forward to, or remove the `-p` flag altogether if you want to run `psql` from inside the container.
+In the above command, replace `{HostPort}` with a port you'd like to forward to, or remove the `-p` flag altogether if you want to run `psql` from inside the container.
 
 ## Loading AGE
 
-Connect to your containerized Postgres instance and then run the following commands:
+Connect to your containerized Postgres instance, for example:
+
+```sh
+psql -h 0.0.0.0 -p {HostPort} -U postgres
+```
+
+Then run the following commands:
 
 ```sql
 CREATE EXTENSION age;
@@ -41,9 +48,9 @@ For example, if we wanted to create a graph with 4 nodes, we could do something 
 
 ```sql
 SELECT * from cypher('my_graph_name', $$
-  CREATE (a:Part {part_num: '123'}), 
-         (b:Part {part_num: '345'}), 
-         (c:Part {part_num: '456'}), 
+  CREATE (a:Part {part_num: '123'}),
+         (b:Part {part_num: '345'}),
+         (c:Part {part_num: '456'}),
          (d:Part {part_num: '789'})
 $$) as (a agtype);
 
@@ -88,11 +95,12 @@ $$) as (a agtype);
 Next we can return the path we just created (results have been formatted for readability):
 
 ```sql
-SELECT * from cypher('age', $$
+SELECT * from cypher('my_graph_name', $$
   MATCH p=(a)-[]-(b)
   RETURN p
 $$) as (a agtype);
 ```
+
 ```javascript
 // RESULTS
 // ROW 1
@@ -148,3 +156,4 @@ $$) as (a agtype);
    }::"vertex"
 ]::"path"
 (2 rows)
+```
