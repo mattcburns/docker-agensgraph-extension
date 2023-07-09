@@ -1,4 +1,4 @@
-# Personal fork for managin my own version of this container with latest release.
+# Personal fork for managing my own version of this container with latest release.
 
 # Docker Apache AGE for Postgres
 
