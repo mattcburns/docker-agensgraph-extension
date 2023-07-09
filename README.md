@@ -2,13 +2,13 @@
 
 # Docker Apache AGE for Postgres
 
-This is an image to build the [Apache AGE](https://github.com/apache/incubator-age/) on the official PostgreSQL 11 Docker image. It can be run by executing 
+This is an image to build the [Apache AGE](https://github.com/apache/incubator-age/) on the official PostgreSQL 13 Docker image.
 
 ## Running the container
 
 It can be run by executing:
 
-`docker run -it -e POSTGRES_PASSWORD=mypassword -p {HostPort}:5432 sorrell/apache-age`
+`docker run -it -e POSTGRES_PASSWORD=mypassword -p {HostPort}:5432 ghcr.io/mattcburns/docker-agensgraph-extension/agensgraph-extension`
 
 In the above command, replace `{HostPort}` with a port you'd like to forward to, or remove the `-p` flag altogether if you want to run `psql` from inside the container.
 
